@@ -1,5 +1,8 @@
-var express = require('express');
-var app = express();
+var express = require('express')
+var bodyParser = require('body-parser')
+var app = express()
+
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // console.log('Hello World')
 
@@ -34,9 +37,13 @@ app.get('/:word/echo', (req, res) => {
   res.json({echo: word})
 })
 
-app.get('/name', (req, res) => {
-  res.json({ name: `${req.query.first} ${req.query.last}` })
-})
-
+app
+  .route('/name')
+  .get((req, res) => {
+    res.json({ name: `${req.query.first} ${req.query.last}` })
+  })
+  .post((req, res) => {
+    res.json({ name: `${req.body.first} ${req.body.last}` })
+  })
 
 module.exports = app;
